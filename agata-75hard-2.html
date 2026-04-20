@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#f3f0ff">
+<title>75 Hard — Agata</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --p50: #f3f0ff;
+    --p100: #e4ddff;
+    --p200: #c9baff;
+    --p400: #9b7ff4;
+    --p500: #7c5ce8;
+    --p600: #6244c5;
+    --p700: #4a319a;
+    --pink: #e8a0bf;
+    --pink-light: #fce8f3;
+    --green: #7ecb9e;
+    --text: #2d2340;
+    --text2: #7a6e90;
+    --bg: #faf8ff;
+    --card: #ffffff;
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+
+  html { background: var(--bg); }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ── BACKGROUND DECORATION ── */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -120px; right: -80px;
+    width: 340px; height: 340px;
+    background: radial-gradient(circle, #d9cfff 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: 60px; left: -100px;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, #fce0f3 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 48px 24px 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .flowers {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .flower-svg {
+    animation: sway 4s ease-in-out infinite;
+  }
+  .flower-svg:nth-child(2) { animation-delay: 1.2s; }
+  .flower-svg:nth-child(3) { animation-delay: 2.4s; }
+
+  @keyframes sway {
+    0%,100% { transform: rotate(-6deg) translateY(0); }
+    50% { transform: rotate(6deg) translateY(-3px); }
+  }
+
+  .day-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--p500);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .app-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    line-height: 1.15;
+    color: var(--text);
+  }
+  .app-title span { color: var(--p500); font-style: italic; }
+
+  .app-sub {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 5px;
+    font-weight: 300;
+  }
+
+  /* ── CHEER CARD ── */
+  .cheer-card {
+    margin: 0 16px 20px;
+    background: linear-gradient(135deg, var(--p500) 0%, var(--p400) 100%);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .cheer-card::before {
+    content: '♡';
+    position: absolute;
+    right: 18px; top: 14px;
+    font-size: 48px;
+    color: rgba(255,255,255,0.12);
+    line-height: 1;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 0.12; }
+    50% { transform: scale(1.15); opacity: 0.2; }
+  }
+
+  .cheer-from {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 8px;
+  }
+
+  .cheer-text {
+    font-size: 14.5px;
+    color: #fff;
+    line-height: 1.65;
+    font-weight: 300;
+    max-width: 82%;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    display: flex;
+    gap: 8px;
+    padding: 0 16px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .nav-btn {
+    flex: 1;
+    padding: 10px;
+    border: 1.5px solid var(--p100);
+    border-radius: var(--radius-sm);
+    background: var(--card);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-btn.active {
+    background: var(--p50);
+    border-color: var(--p200);
+    color: var(--p600);
+  }
+
+  /* ── GOALS ── */
+  .goals-section {
+    padding: 0 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+
+  .goal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .goal-item {
+    background: var(--card);
+    border: 1.5px solid #ede8ff;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .goal-item:active { transform: scale(0.975); }
+
+  .goal-item.done {
+    background: var(--p50);
+    border-color: var(--p200);
+  }
+
+  .goal-icon-wrap {
+    width: 42px; height: 42px;
+    border-radius: 14px;
+    background: var(--p50);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .goal-item.done .goal-icon-wrap {
+    background: var(--p400);
+  }
+
+  .goal-item.done .goal-icon-wrap span {
+    filter: brightness(10);
+  }
+
+  .goal-text { flex: 1; }
+
+  .goal-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    transition: color 0.2s;
+  }
+
+  .goal-item.done .goal-name { color: var(--p600); }
+
+  .goal-sub {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 1px;
+    font-weight: 300;
+  }
+
+  .goal-check {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid #ddd6ff;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .goal-item.done .goal-check {
+    background: var(--p500);
+    border-color: var(--p500);
+  }
+
+  .checkmark {
+    opacity: 0;
+    transform: scale(0.4) rotate(-10deg);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .goal-item.done .checkmark {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  /* ── ALL DONE BANNER ── */
+  .done-banner {
+    margin: 14px 16px 0;
+    background: var(--pink-light);
+    border: 1.5px solid var(--pink);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    text-align: center;
+    display: none;
+    animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+    position: relative;
+    z-index: 1;
+  }
+
+  .done-banner.show { display: block; }
+
+  .done-banner p { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--p600); }
+  .done-banner small { font-size: 12px; color: var(--text2); font-weight: 300; }
+
+  /* ── PROGRESS CARD ── */
+  .progress-wrap {
+    padding: 16px 16px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .progress-card {
+    background: var(--card);
+    border: 1.5px solid #ede8ff;
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+
+  .prog-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+
+  .prog-label { font-size: 13px; font-weight: 500; color: var(--text2); }
+  .prog-pct { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--p500); }
+
+  .bar-bg {
+    background: var(--p50);
+    border-radius: 8px;
+    height: 7px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--p400), var(--p500));
+    border-radius: 8px;
+    transition: width 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+    width: 0%;
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--p50);
+  }
+
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--p500);
+    display: block;
+  }
+  .stat-lbl { font-size: 11px; color: var(--text2); font-weight: 300; }
+
+  /* ── CALENDAR ── */
+  .calendar-wrap {
+    padding: 0 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+  }
+
+  .cal-dot {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1.5px solid #ede8ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: var(--text2);
+    font-weight: 400;
+    transition: all 0.2s;
+  }
+
+  .cal-dot.done { background: var(--p500); border-color: var(--p500); color: #fff; font-weight: 500; }
+  .cal-dot.partial { background: var(--p50); border-color: var(--p200); color: var(--p600); }
+  .cal-dot.today { border: 2px solid var(--p500); color: var(--p600); font-weight: 500; }
+  .cal-dot.future { opacity: 0.3; }
+
+  .cal-legend {
+    display: flex;
+    gap: 14px;
+    margin-top: 12px;
+    padding: 0 2px;
+  }
+
+  .leg-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text2);
+    font-weight: 300;
+  }
+
+  .leg-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+
+  /* ── CONFETTI ── */
+  .confetti-wrap {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  .conf-piece {
+    position: absolute;
+    width: 7px; height: 7px;
+    border-radius: 2px;
+    animation: confFall linear forwards;
+  }
+
+  @keyframes confFall {
+    0% { transform: translateY(-10px) rotate(0deg) scale(1); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg) scale(0.5); opacity: 0; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .goal-item:nth-child(1) { animation-delay: 0.05s; }
+  .goal-item:nth-child(2) { animation-delay: 0.1s; }
+  .goal-item:nth-child(3) { animation-delay: 0.15s; }
+  .goal-item:nth-child(4) { animation-delay: 0.2s; }
+  .goal-item:nth-child(5) { animation-delay: 0.25s; }
+
+  .hidden { display: none !important; }
+
+  /* ── BRAVO POPUP ── */
+  #bravoPopup {
+    position: fixed;
+    bottom: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--p500);
+    color: #fff;
+    border-radius: 40px;
+    padding: 12px 28px;
+    z-index: 200;
+    text-align: center;
+    animation: bravoIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both, bravoOut 0.3s ease 1.7s both;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .bravo-text {
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bravo-heart {
+    position: absolute;
+    top: -20px;
+    font-size: 18px;
+    animation: heartFloat 1.2s ease-out both;
+    opacity: 0;
+  }
+
+  @keyframes bravoIn {
+    from { opacity: 0; transform: translateX(-50%) scale(0.7) translateY(10px); }
+    to   { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+  }
+  @keyframes bravoOut {
+    from { opacity: 1; transform: translateX(-50%) scale(1); }
+    to   { opacity: 0; transform: translateX(-50%) scale(0.85) translateY(-8px); }
+  }
+  @keyframes heartFloat {
+    0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+    30%  { opacity: 1; transform: translateY(-10px) scale(1.2); }
+    100% { opacity: 0; transform: translateY(-40px) scale(0.8); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="flowers">
+    <svg class="flower-svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <circle cx="11" cy="7" r="3" fill="#c9baff"/>
+      <circle cx="15" cy="11" r="3" fill="#c9baff"/>
+      <circle cx="11" cy="15" r="3" fill="#c9baff"/>
+      <circle cx="7" cy="11" r="3" fill="#c9baff"/>
+      <circle cx="11" cy="11" r="3.5" fill="#9b7ff4"/>
+    </svg>
+    <svg class="flower-svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <ellipse cx="9" cy="5" rx="2.5" ry="3.5" fill="#f4c0d1"/>
+      <ellipse cx="13" cy="9" rx="3.5" ry="2.5" fill="#f4c0d1"/>
+      <ellipse cx="9" cy="13" rx="2.5" ry="3.5" fill="#f4c0d1"/>
+      <ellipse cx="5" cy="9" rx="3.5" ry="2.5" fill="#f4c0d1"/>
+      <circle cx="9" cy="9" r="3" fill="#e8a0bf"/>
+    </svg>
+    <svg class="flower-svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <circle cx="8" cy="4.5" r="2.5" fill="#ddd6ff"/>
+      <circle cx="11.5" cy="8" r="2.5" fill="#ddd6ff"/>
+      <circle cx="8" cy="11.5" r="2.5" fill="#ddd6ff"/>
+      <circle cx="4.5" cy="8" r="2.5" fill="#ddd6ff"/>
+      <circle cx="8" cy="8" r="3" fill="#9b7ff4"/>
+    </svg>
+  </div>
+  <div class="day-chip">
+    <span id="dayNum">Ziua 1 din 75</span>
+  </div>
+  <div class="app-title">Agata's<br><span>75 Hard</span></div>
+  <div class="app-sub">câte oleacă, câte oleacă</div>
+</div>
+
+<!-- CHEER CARD -->
+<div class="cheer-card">
+  <div class="cheer-from">de la bitul tău ♡</div>
+  <div class="cheer-text" id="cheerText">Se încarcă mesajul tău…</div>
+</div>
+
+<!-- NAV -->
+<div class="nav" style="margin-top:4px;">
+  <button class="nav-btn active" id="btnToday" onclick="showView('today')">Azi</button>
+  <button class="nav-btn" id="btnCalendar" onclick="showView('calendar')">Calendar</button>
+</div>
+
+<!-- TODAY VIEW -->
+<div id="viewToday">
+  <div class="goals-section">
+    <div class="section-title">Obiectivele de azi</div>
+    <div class="goal-list" id="goalList"></div>
+  </div>
+
+  <div class="done-banner" id="doneBanner">
+    <p>Zi perfectă! 🌸</p>
+    <small>fiecare zi contează — sunt atât de mândru de tine, Agata</small>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-card">
+      <div class="prog-top">
+        <span class="prog-label">Progresul de azi</span>
+        <span class="prog-pct" id="pctLabel">0%</span>
+      </div>
+      <div class="bar-bg"><div class="bar-fill" id="barFill"></div></div>
+      <div class="stats-row">
+        <div class="stat-item">
+          <span class="stat-num" id="streakNum">0</span>
+          <span class="stat-lbl">zile la rând</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" id="totalDone">0</span>
+          <span class="stat-lbl">zile complete</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" id="daysLeft">75</span>
+          <span class="stat-lbl">zile rămase</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:14px 16px 0;position:relative;z-index:1;">
+    <div class="section-title" style="margin-bottom:10px;">Obiectiv săptămânal — antrenamente</div>
+    <div id="weeklyWorkout"></div>
+  </div>
+</div>
+
+<!-- CALENDAR VIEW -->
+<div id="viewCalendar" class="hidden">
+  <div class="calendar-wrap">
+    <div class="section-title" style="margin-bottom:12px;">75 de zile</div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-legend">
+      <div class="leg-item"><div class="leg-dot" style="background:#9b7ff4"></div>complet</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#e4ddff;border:1px solid #c9baff"></div>parțial</div>
+      <div class="leg-item"><div class="leg-dot" style="background:transparent;border:2px solid #9b7ff4"></div>azi</div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY DETAIL MODAL -->
+<div id="dayModal" class="modal-overlay hidden" onclick="closeModal(event)">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div>
+        <div class="modal-day-num" id="modalDayNum">Ziua 1</div>
+        <div class="modal-date" id="modalDate"></div>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-goals" id="modalGoals"></div>
+    <div class="modal-workout-row" id="modalWorkoutRow"></div>
+  </div>
+</div>
+
+<!-- CONFETTI -->
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<style>
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(30,20,60,0.35);
+    z-index: 100;
+    display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 0;
+    animation: fadeOverlay 0.2s ease both;
+  }
+  @keyframes fadeOverlay { from { opacity: 0; } to { opacity: 1; } }
+
+  .modal-card {
+    background: var(--bg);
+    border-radius: 24px 24px 0 0;
+    padding: 24px 20px 40px;
+    width: 100%;
+    max-width: 430px;
+    animation: slideUp 0.28s cubic-bezier(0.34,1.2,0.64,1) both;
+  }
+  @keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .modal-day-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; color: var(--p500);
+  }
+  .modal-date { font-size: 12px; color: var(--text2); margin-top: 2px; font-weight: 300; }
+  .modal-close {
+    background: var(--p50); border: none; border-radius: 50%;
+    width: 32px; height: 32px; font-size: 13px; color: var(--text2);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+
+  .modal-goals { display: flex; flex-direction: column; gap: 9px; margin-bottom: 14px; }
+
+  .modal-goal-item {
+    background: var(--card);
+    border: 1.5px solid #ede8ff;
+    border-radius: 16px;
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .modal-goal-item:active { transform: scale(0.975); }
+  .modal-goal-item.done { background: var(--p50); border-color: var(--p200); }
+
+  .modal-icon-wrap {
+    width: 36px; height: 36px; border-radius: 11px;
+    background: var(--p50);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; flex-shrink: 0; transition: background 0.2s;
+  }
+  .modal-goal-item.done .modal-icon-wrap { background: var(--p400); }
+  .modal-goal-item.done .modal-icon-wrap span { filter: brightness(10); }
+
+  .modal-goal-name { font-size: 14px; font-weight: 500; color: var(--text); flex: 1; }
+  .modal-goal-item.done .modal-goal-name { color: var(--p600); }
+
+  .modal-check {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1.5px solid #ddd6ff;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.2s ease;
+  }
+  .modal-goal-item.done .modal-check { background: var(--p500); border-color: var(--p500); }
+
+  .workout-section {
+    background: var(--card);
+    border: 1.5px solid #ede8ff;
+    border-radius: 16px;
+    padding: 14px 16px;
+  }
+  .workout-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .workout-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text2);
+  }
+  .workout-count {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px; color: var(--p500);
+  }
+  .workout-days { display: flex; gap: 6px; flex-wrap: wrap; }
+  .workout-day-btn {
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1.5px solid #ede8ff;
+    background: var(--card);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 500; color: var(--text2);
+    cursor: pointer; transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .workout-day-btn.active { background: var(--p50); border-color: var(--p400); color: var(--p600); }
+  .workout-day-btn:active { transform: scale(0.95); }
+  .workout-goal-bar {
+    margin-top: 10px; height: 4px; background: var(--p50); border-radius: 4px; overflow: hidden;
+  }
+  .workout-goal-fill {
+    height: 100%; background: var(--p400); border-radius: 4px; transition: width 0.4s ease;
+  }
+  .workout-goal-note {
+    font-size: 11px; color: var(--text2); margin-top: 6px; font-weight: 300;
+  }
+</style>
+
+<script>
+const CHEERS = [
+  "Te iubesc atât de mult. Fiecare alegere pe care o faci azi e dovada cât ești de puternică și de frumoasă.",
+  "Mă inspiri în fiecare zi, Agata. Să te văd atât de hotărâtă îmi umple inima de mândrie și iubire.",
+  "O zi mai aproape, o zi mai puternică. Sunt aici lângă tine la fiecare pas, iubirică.",
+  "Felul în care ai grijă de tine este unul dintre motivele pentru care te iubesc atât de mult.",
+  "Chiar și în zilele grele, ești incredibilă. Sunt cel mai norocos om că te am pe tine.",
+  "Faci ceva extraordinar. Nu uita asta nicio clipă. Sunt atât de mândru de tine, Agata.",
+  "Fiecare pas, fiecare alegere, fiecare efort — sunt cu tine în gând. Tu poți, iubirică!",
+  "Disciplina ta e la fel de frumoasă ca inima ta. Te iubesc mai mult decât pot exprima în cuvinte.",
+  "Încă o zi, încă o dovadă că ești de neoprit. Cred în tine mereu și întotdeauna.",
+  "Spor la treabă iubirică, îți țin pumnii 🤍",
+  "Văd cât de mult muncești și vreau să știi — înseamnă totul. Tu înseamni totul pentru mine.",
+  "Unii visează. Tu faci. Asta te face extraordinară, iubirică.",
+  "Ziua de azi poate fi grea, dar tu ești mai puternică. Și eu voi fi aici când termini, mândru de tine.",
+  "Viitoarea ta versiune îți mulțumește deja. Și eu îți mulțumesc — pentru că ești tu.",
+  "75 de zile în care alegi să ai grijă de tine. Eu te aleg pe tine în fiecare zi.",
+];
+
+const DAILY_GOALS = [
+  { id: 'sugar',     name: 'Fără zahăr',            icon: '🚫', sub: 'că tu ești dulce oricum'     },
+  { id: 'processed', name: 'Fără alimente procesate', icon: '🥗', sub: 'doar mâncărică sănătoasă' },
+  { id: 'alcohol',   name: 'Fără alcool',             icon: '💧', sub: 'eww, nu e bun'  },
+  { id: 'steps',     name: '10.000 de pași',          icon: '👟', sub: 'mergi, iubirică, mergi' },
+];
+
+function getToday() { return new Date().toISOString().slice(0, 10); }
+
+function dateToKey(d) { return d.toISOString().slice(0, 10); }
+
+function getWeekStartFor(dateKey) {
+  const d = new Date(dateKey);
+  const day = d.getDay();
+  const mon = new Date(d);
+  mon.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
+  return dateToKey(mon);
+}
+
+function daysInWeekOf(dateKey) {
+  const start = new Date(getWeekStartFor(dateKey));
+  const keys = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(start); d.setDate(start.getDate() + i);
+    keys.push(dateToKey(d));
+  }
+  return keys;
+}
+
+function load() {
+  try { return JSON.parse(localStorage.getItem('agata75h') || '{}'); } catch { return {}; }
+}
+function save(s) { localStorage.setItem('agata75h', JSON.stringify(s)); }
+
+const today = getToday();
+let state = load();
+
+// Default start = 7 days ago
+if (!state.startDate) {
+  const d = new Date(); d.setDate(d.getDate() - 7);
+  state.startDate = dateToKey(d);
+}
+if (!state.days) state.days = {};
+if (!state.days[today]) state.days[today] = {};
+
+// Pre-fill first 7 days as completed (only if never touched by user)
+if (!state.seededPast) {
+  const start = new Date(state.startDate);
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(start); d.setDate(start.getDate() + i);
+    const k = dateToKey(d);
+    if (k < today) {
+      if (!state.days[k]) state.days[k] = {};
+      state.days[k].sugar = true;
+      state.days[k].processed = true;
+      state.days[k].alcohol = true;
+      state.days[k].steps = true;
+      state.days[k].workout = (i % 2 === 0);
+    }
+  }
+  state.seededPast = true;
+  save(state);
+}
+
+function getDayNum(dateKey) {
+  const start = new Date(state.startDate);
+  const cur = new Date(dateKey);
+  return Math.min(75, Math.floor((cur - start) / 86400000) + 1);
+}
+
+function getWorkoutsInWeekOf(dateKey) {
+  return daysInWeekOf(dateKey).filter(k => state.days[k] && state.days[k].workout).length;
+}
+
+// A day is "done" if all 4 daily goals are ticked
+function isDayDone(dateKey) {
+  const d = state.days[dateKey];
+  if (!d) return false;
+  return DAILY_GOALS.every(g => d[g.id]);
+}
+
+function getStreak() {
+  let streak = 0;
+  const d = new Date(today);
+  for (let i = 0; i < 76; i++) {
+    const k = dateToKey(d);
+    if (isDayDone(k)) { streak++; d.setDate(d.getDate() - 1); }
+    else break;
+  }
+  return streak;
+}
+
+function getTotalDone() {
+  return Object.keys(state.days).filter(k => isDayDone(k)).length;
+}
+
+// ── TODAY VIEW ──
+function renderGoals(dateKey) {
+  const list = document.getElementById('goalList');
+  if (!list) return;
+  list.innerHTML = '';
+  DAILY_GOALS.forEach((g, i) => {
+    const checked = !!(state.days[dateKey] && state.days[dateKey][g.id]);
+    const el = document.createElement('div');
+    el.className = 'goal-item' + (checked ? ' done' : '');
+    el.style.animationDelay = (i * 0.05) + 's';
+    el.innerHTML = `
+      <div class="goal-icon-wrap"><span style="font-size:20px">${g.icon}</span></div>
+      <div class="goal-text">
+        <div class="goal-name">${g.name}</div>
+        <div class="goal-sub">${g.sub}</div>
+      </div>
+      <div class="goal-check">
+        <svg class="checkmark" width="13" height="13" viewBox="0 0 13 13" fill="none">
+          <polyline points="2,6.5 5,9.5 11,3" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>`;
+    el.onclick = () => toggleGoal(dateKey, g.id);
+    list.appendChild(el);
+  });
+  updateProgress(dateKey);
+}
+
+function toggleGoal(dateKey, id) {
+  if (!state.days[dateKey]) state.days[dateKey] = {};
+  const wasChecked = !!state.days[dateKey][id];
+  state.days[dateKey][id] = !wasChecked;
+  save(state);
+  if (dateKey === today) renderGoals(dateKey);
+  updateProgress(dateKey);
+  if (!wasChecked) showBravo();
+  if (isDayDone(dateKey) && dateKey === today) launchConfetti();
+}
+
+function showBravo() {
+  const existing = document.getElementById('bravoPopup');
+  if (existing) existing.remove();
+  const pop = document.createElement('div');
+  pop.id = 'bravoPopup';
+  const hearts = ['♡','♥','❤','♡','♥'];
+  const floaters = hearts.map((h,i) =>
+    `<span class="bravo-heart" style="animation-delay:${i*0.1}s;left:${15+i*17}%">${h}</span>`
+  ).join('');
+  pop.innerHTML = `${floaters}<div class="bravo-text">bavo iubirică! 🌸</div>`;
+  document.body.appendChild(pop);
+  setTimeout(() => { if (pop.parentNode) pop.remove(); }, 2000);
+}
+
+function updateProgress(dateKey) {
+  if (dateKey !== today) return;
+  const d = state.days[dateKey] || {};
+  const done = DAILY_GOALS.filter(g => d[g.id]).length;
+  const pct = Math.round((done / 4) * 100);
+  document.getElementById('barFill').style.width = pct + '%';
+  document.getElementById('pctLabel').textContent = pct + '%';
+  document.getElementById('streakNum').textContent = getStreak();
+  const total = getTotalDone();
+  document.getElementById('totalDone').textContent = total;
+  document.getElementById('daysLeft').textContent = Math.max(0, 75 - total);
+  const banner = document.getElementById('doneBanner');
+  isDayDone(today) ? banner.classList.add('show') : banner.classList.remove('show');
+}
+
+function renderWeeklyWorkout() {
+  const wrap = document.getElementById('weeklyWorkout');
+  if (!wrap) return;
+  const weekDays = daysInWeekOf(today);
+  const count = getWorkoutsInWeekOf(today);
+  const pct = Math.min(100, Math.round((count / 3) * 100));
+  const DAY_NAMES = ['Lun','Mar','Mie','Joi','Vin','Sâm','Dum'];
+  const start = new Date(state.startDate);
+  const buttonsHtml = weekDays.map((k, i) => {
+    const dayNum = getDayNum(k);
+    const isActive = !!(state.days[k] && state.days[k].workout);
+    const isFuture = k > today;
+    const isBeforeStart = new Date(k) < start;
+    const label = DAY_NAMES[i];
+    return `<button class="workout-day-btn${isActive ? ' active' : ''}" 
+      ${isFuture || isBeforeStart ? 'disabled style="opacity:0.35;cursor:default"' : ''}
+      onclick="toggleWorkout('${k}')">${label}</button>`;
+  }).join('');
+  wrap.innerHTML = `
+    <div class="workout-section">
+      <div class="workout-top">
+        <span class="workout-label">Antrenamente săptămâna aceasta</span>
+        <span class="workout-count">${count}/3</span>
+      </div>
+      <div class="workout-days">${buttonsHtml}</div>
+      <div class="workout-goal-bar"><div class="workout-goal-fill" style="width:${pct}%"></div></div>
+      <div class="workout-goal-note">${count >= 3 ? '🎉 Obiectiv săptămânal atins!' : `Mai ${3 - count} antrenament${3 - count === 1 ? '' : 'e'} până la obiectiv`}</div>
+    </div>`;
+}
+
+function toggleWorkout(dateKey) {
+  if (!state.days[dateKey]) state.days[dateKey] = {};
+  state.days[dateKey].workout = !state.days[dateKey].workout;
+  save(state);
+  renderWeeklyWorkout();
+  renderCalendar();
+}
+
+// ── CALENDAR ──
+function renderCalendar() {
+  const grid = document.getElementById('calGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  const start = new Date(state.startDate);
+  for (let i = 0; i < 75; i++) {
+    const d = new Date(start); d.setDate(start.getDate() + i);
+    const k = dateToKey(d);
+    const dot = document.createElement('div');
+    dot.className = 'cal-dot';
+    dot.textContent = i + 1;
+    if (k > today) {
+      dot.classList.add('future');
+    } else if (k === today) {
+      dot.classList.add('today');
+      dot.onclick = () => openModal(k, i + 1);
+    } else {
+      if (isDayDone(k)) dot.classList.add('done');
+      else if (state.days[k] && Object.values(state.days[k]).some(Boolean)) dot.classList.add('partial');
+      dot.onclick = () => openModal(k, i + 1);
+    }
+    grid.appendChild(dot);
+  }
+}
+
+// ── MODAL ──
+function openModal(dateKey, dayNum) {
+  document.getElementById('modalDayNum').textContent = 'Ziua ' + dayNum;
+  const opts = { weekday: 'long', month: 'long', day: 'numeric' };
+  document.getElementById('modalDate').textContent = new Date(dateKey + 'T12:00:00').toLocaleDateString('ro-RO', opts);
+  renderModalGoals(dateKey);
+  renderModalWorkout(dateKey);
+  document.getElementById('dayModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModalDirect() {
+  document.getElementById('dayModal').classList.add('hidden');
+  document.body.style.overflow = '';
+  renderCalendar();
+  if (document.getElementById('viewToday') && !document.getElementById('viewToday').classList.contains('hidden')) {
+    renderGoals(today);
+    renderWeeklyWorkout();
+  }
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('dayModal')) closeModalDirect();
+}
+
+function renderModalGoals(dateKey) {
+  const list = document.getElementById('modalGoals');
+  list.innerHTML = '';
+  DAILY_GOALS.forEach(g => {
+    const checked = !!(state.days[dateKey] && state.days[dateKey][g.id]);
+    const el = document.createElement('div');
+    el.className = 'modal-goal-item' + (checked ? ' done' : '');
+    el.innerHTML = `
+      <div class="modal-icon-wrap"><span style="font-size:17px">${g.icon}</span></div>
+      <div class="modal-goal-name">${g.name}</div>
+      <div class="modal-check">
+        <svg class="checkmark" width="12" height="12" viewBox="0 0 13 13" fill="none">
+          <polyline points="2,6.5 5,9.5 11,3" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>`;
+    el.onclick = () => {
+      if (!state.days[dateKey]) state.days[dateKey] = {};
+      const wasChecked = !!state.days[dateKey][g.id];
+      state.days[dateKey][g.id] = !wasChecked;
+      save(state);
+      if (!wasChecked) showBravo();
+      renderModalGoals(dateKey);
+      renderModalWorkout(dateKey);
+    };
+    list.appendChild(el);
+  });
+}
+
+function renderModalWorkout(dateKey) {
+  const wrap = document.getElementById('modalWorkoutRow');
+  const hasWorkout = !!(state.days[dateKey] && state.days[dateKey].workout);
+  const weekCount = getWorkoutsInWeekOf(dateKey);
+  wrap.innerHTML = `
+    <div class="workout-section" style="margin-top:0">
+      <div class="workout-top">
+        <span class="workout-label">Antrenament în această zi</span>
+        <span class="workout-count" style="font-size:14px;color:var(--text2)">${weekCount}/3 săptămâna aceasta</span>
+      </div>
+      <button class="workout-day-btn${hasWorkout ? ' active' : ''}" style="width:100%;padding:10px;border-radius:12px;font-size:13px" onclick="toggleModalWorkout('${dateKey}')">
+        ${hasWorkout ? '✓ Antrenament bifat' : 'Marchează antrenamentul'}
+      </button>
+    </div>`;
+}
+
+function toggleModalWorkout(dateKey) {
+  if (!state.days[dateKey]) state.days[dateKey] = {};
+  state.days[dateKey].workout = !state.days[dateKey].workout;
+  save(state);
+  renderModalGoals(dateKey);
+  renderModalWorkout(dateKey);
+}
+
+// ── VIEWS ──
+function showView(v) {
+  document.getElementById('viewToday').classList.toggle('hidden', v !== 'today');
+  document.getElementById('viewCalendar').classList.toggle('hidden', v !== 'calendar');
+  document.getElementById('btnToday').classList.toggle('active', v === 'today');
+  document.getElementById('btnCalendar').classList.toggle('active', v === 'calendar');
+  if (v === 'calendar') renderCalendar();
+}
+
+// ── CONFETTI ──
+function launchConfetti() {
+  const wrap = document.getElementById('confettiWrap');
+  wrap.innerHTML = '';
+  const colors = ['#9b7ff4', '#c9baff', '#e8a0bf', '#f4c0d1', '#f3f0ff', '#7c5ce8'];
+  for (let i = 0; i < 50; i++) {
+    const el = document.createElement('div');
+    el.className = 'conf-piece';
+    el.style.cssText = `left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${1.4+Math.random()*2.2}s;animation-delay:${Math.random()*0.9}s`;
+    wrap.appendChild(el);
+  }
+  setTimeout(() => wrap.innerHTML = '', 4000);
+}
+
+// ── INIT ──
+function init() {
+  document.getElementById('dayNum').textContent = `Ziua ${getDayNum(today)} din 75`;
+  const d = new Date(today);
+  const seed = d.getDate() + d.getMonth() * 31 + d.getFullYear();
+  document.getElementById('cheerText').textContent = CHEERS[seed % CHEERS.length];
+  renderGoals(today);
+  renderWeeklyWorkout();
+  updateProgress(today);
+}
+
+init();
+</script>
+</body>
+</html>
